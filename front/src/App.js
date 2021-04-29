@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TodoItem from "./TodoItem";
-import todosData from "./todosData";
+import axios from "axios";
 
 import "./App.css";
 
@@ -8,9 +8,16 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      todos: todosData,
+      todos: [],
     };
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    axios
+      .get("/todos/")
+      .then((response) => this.setState({ todos: response.data }))
+      .catch((error) => console.log(error));
   }
 
   handleChange(id) {
